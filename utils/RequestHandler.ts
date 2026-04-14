@@ -1,6 +1,6 @@
 export class RequestHandler {
 
-    private baseUrl: string
+    private baseUrl: string | undefined
     private apiPath: string = ''
     private queryParams: object = {}
     private apiHeaders: object = {}
