@@ -4,11 +4,11 @@ import { RequestHandler } from "../../utils/RequestHandler.ts";
 test('First Test', async ({ api }) => {
 
     api
-    .url('https://conduit-api.bondaracademy.com')
-    .path('/api/articles')
-    .params({limit: 10, offset: 0})
-    .headers({Authorization: 'bearer token'})
-    .body({ "user": { "email": "itkhanz@test.com", "password": "test1234" }})
+        .url('https://random-url.com')
+        .path('/api/articles')
+        .params({ limit: 10, offset: 0 })
+        .headers({ Authorization: 'bearer token' })
+        .body({ "user": { "email": "itkhanz@test.com", "password": "test1234" } })
 
-    
+
 })
