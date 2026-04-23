@@ -1,9 +1,7 @@
-import test from "@playwright/test";
+import { test } from "../../utils/fixtures.ts";
 import { RequestHandler } from "../../utils/RequestHandler.ts";
 
-test('First Test', async ({}) => {
-
-    const api = new RequestHandler()
+test('First Test', async ({ api }) => {
 
     api
     .url('https://conduit-api.bondaracademy.com')
@@ -11,6 +9,6 @@ test('First Test', async ({}) => {
     .params({limit: 10, offset: 0})
     .headers({Authorization: 'bearer token'})
     .body({ "user": { "email": "itkhanz@test.com", "password": "test1234" }})
-    
 
+    
 })
