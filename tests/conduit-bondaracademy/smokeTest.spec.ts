@@ -1,14 +1,27 @@
+import { expect } from "@playwright/test";
 import { test } from "../../utils/fixtures.ts";
 import { RequestHandler } from "../../utils/RequestHandler.ts";
 
-test('First Test', async ({ api }) => {
+//Providing api fixture as input instead of request object
+test('Get Articles', async ({ api }) => {
 
-    api
-        .url('https://random-url.com')
-        .path('/api/articles')
+    //Need to use await because getRequest() is async function
+    const response = await api
+        .path('/articles')
         .params({ limit: 10, offset: 0 })
-        .headers({ Authorization: 'bearer token' })
-        .body({ "user": { "email": "itkhanz@test.com", "password": "test1234" } })
+        .getRequest(200)
+
+    expect(response.articles.length).toBeLessThanOrEqual(10)
+    expect(response.articlesCount).toEqual(10)
 
 
+})
+
+test('Get Test Tags', async ({ api }) => {
+    const response = await api
+        .path('/tags')
+        .getRequest(200)
+
+    expect(response.tags.length).toBeLessThanOrEqual(10)
+    expect(response.tags[0]).toEqual('Test')
 })

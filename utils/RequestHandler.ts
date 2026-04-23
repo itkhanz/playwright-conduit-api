@@ -1,4 +1,4 @@
-import { APIRequestContext } from "@playwright/test"
+import { APIRequestContext, expect } from "@playwright/test"
 
 export class RequestHandler {
 
@@ -7,7 +7,7 @@ export class RequestHandler {
     private defaultBaseUrl: string
     private apiPath: string = ''
     private queryParams: object = {}
-    private apiHeaders: object = {}
+    private apiHeaders: Record<string, string> = {}
     private apiBody: object = {}
 
     constructor(request: APIRequestContext, apiBaseUrl: string) {
@@ -30,7 +30,7 @@ export class RequestHandler {
         return this
     }
 
-    headers(headers: object) {
+    headers(headers: Record<string, string>) {
         this.apiHeaders = headers
         return this
     }
@@ -38,6 +38,16 @@ export class RequestHandler {
     body(body: object) {
         this.apiBody = body
         return this
+    }
+
+    async getRequest(statusCode: number) {
+        const url = this.getUrl()
+        const response = await this.request.get(url, {
+            headers: this.apiHeaders
+        })
+        expect(response.status()).toEqual(statusCode)
+        const responseJSON = response.json()
+        return responseJSON
     }
 
     private getUrl() {

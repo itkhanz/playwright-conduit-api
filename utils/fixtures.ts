@@ -11,7 +11,7 @@ export const test = base.extend<TestOptions>({
     //first argument should be the object with depenedencies that is to be passed into the fixture e.g. request fixture
     //use functions is a special PW function that is always the second argument
     api: async ({ request }, use) => {
-        const baseUrl = 'https://conduit-api.bondaracademy.com'
+        const baseUrl = 'https://conduit-api.bondaracademy.com/api'
         const requestHandler = new RequestHandler(request, baseUrl)
         await use(requestHandler) //All the code before use is executed after the test, and the code after use is executed after test
 
