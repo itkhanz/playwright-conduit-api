@@ -1,5 +1,5 @@
-import { expect } from "@playwright/test";
-import { test } from "../../utils/fixtures.ts";
+import { expect } from "../../utils/custom-expect";
+import { test } from "../../utils/fixtures";
 
 let authToken: string
 
@@ -22,7 +22,7 @@ test('Get Articles', async ({ api }) => {
         .getRequest(200)
 
     expect(response.articles.length).toBeLessThanOrEqual(10)
-    expect(response.articlesCount).toEqual(10)
+    expect(response.articlesCount).shouldEqual(10)
 
 
 })
