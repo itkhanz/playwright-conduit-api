@@ -21,7 +21,7 @@ test('Get Articles', async ({ api }) => {
         .params({ limit: 10, offset: 0 })
         .getRequest(200)
 
-    expect(response.articles.length).toBeLessThanOrEqual(10)
+    expect(response.articles.length).shouldBeLessThanOrEqual(10)
     expect(response.articlesCount).shouldEqual(10)
 
 
@@ -32,8 +32,8 @@ test('Get Test Tags', async ({ api }) => {
         .path('/tags')
         .getRequest(200)
 
-    expect(response.tags.length).toBeLessThanOrEqual(10)
-    expect(response.tags[0]).toEqual('Test')
+    expect(response.tags.length).shouldBeLessThanOrEqual(10)
+    expect(response.tags[0]).shouldEqual('Test')
 })
 
 test('Create, Update, Delete, and Get Article', async ({ api }) => {
@@ -44,7 +44,7 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .body({ "article": { "title": "Second article", "description": "About", "body": "Details", "tagList": ["test"] } })
         .postRequest(201)
 
-    expect(newArticleResponse.article.title).toEqual("Second article")
+    expect(newArticleResponse.article.title).shouldEqual("Second article")
     const articleSlug = newArticleResponse.article.slug
 
     const updateArticleResponse = await api
@@ -53,7 +53,7 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .body({ "article": { "title": "Edited article", "description": "About", "body": "Details", "tagList": ["test"] } })
         .putRequest(200)
 
-    expect(updateArticleResponse.article.title).toEqual("Edited article")
+    expect(updateArticleResponse.article.title).shouldEqual("Edited article")
     const updatedArticleSlug = updateArticleResponse.article.slug
 
     const getArticlesResponse = await api
@@ -61,7 +61,7 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .headers({ Authorization: authToken })
         .params({ limit: 10, offset: 0 })
         .getRequest(200)
-    expect(getArticlesResponse.articles[0].title).toEqual('Edited article')
+    expect(getArticlesResponse.articles[0].title).shouldEqual('Edited article')
 
     const deleteArticleResponse = await api
         .path(`/articles/${updatedArticleSlug}`)
@@ -73,6 +73,6 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .headers({ Authorization: authToken })
         .params({ limit: 10, offset: 0 })
         .getRequest(200)
-    expect(finalArticlesResponse.articles[0].title).not.toEqual('Edited article')
+    expect(finalArticlesResponse.articles[0].title).not.shouldEqual('Edited article')
 
 })
