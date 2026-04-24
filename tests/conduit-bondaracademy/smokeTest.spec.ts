@@ -10,7 +10,6 @@ test.beforeAll('Get Token', async ({ api, config }) => {
         .postRequest(200)
 
     authToken = 'Token ' + tokenResponse.user.token
-    console.log(tokenResponse.user)
 })
 
 //Providing api fixture as input instead of request object
@@ -24,8 +23,6 @@ test('Get Articles', async ({ api }) => {
 
     expect(response.articles.length).shouldBeLessThanOrEqual(10)
     expect(response.articlesCount).shouldEqual(10)
-
-
 })
 
 test('Get Test Tags', async ({ api }) => {
@@ -75,5 +72,4 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .params({ limit: 10, offset: 0 })
         .getRequest(200)
     expect(finalArticlesResponse.articles[0].title).not.shouldEqual('Edited article')
-
 })

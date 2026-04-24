@@ -1,8 +1,8 @@
 import { test as base } from "@playwright/test";
-import { RequestHandler } from "./RequestHandler";
-import { APILogger } from "./logger";
-import { setCustomExpectLogger } from "./custom-expect";
 import { config } from "../api-test.config";
+import { RequestHandler } from "./RequestHandler";
+import { setCustomExpectLogger } from "./custom-expect";
+import { APILogger } from "./logger";
 
 //Needed to fix Intellisense to show the methods available inside api fixture
 export type TestOptions = {
