@@ -1,5 +1,6 @@
 import { test as base } from "@playwright/test";
 import { RequestHandler } from "./RequestHandler";
+import { APILogger } from "./logger";
 
 //Needed to fix Intellisense to show the methods available inside api fixture
 export type TestOptions = {
@@ -12,8 +13,10 @@ export const test = base.extend<TestOptions>({
     //use functions is a special PW function that is always the second argument
     api: async ({ request }, use) => {
         const baseUrl = 'https://conduit-api.bondaracademy.com/api'
-        const requestHandler = new RequestHandler(request, baseUrl)
+        const logger = new APILogger()
+        const requestHandler = new RequestHandler(request, baseUrl, logger)
         await use(requestHandler) //All the code before use is executed after the test, and the code after use is executed after test
-
+        const logs = logger.getRecentLogs()
+        console.log(logs)
     }
 })

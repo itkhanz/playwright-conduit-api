@@ -1,7 +1,9 @@
 import { APIRequestContext, expect } from "@playwright/test"
+import { APILogger } from "./logger"
 
 export class RequestHandler {
 
+    private logger: APILogger
     private request: APIRequestContext
     private baseUrl: string | undefined
     private defaultBaseUrl: string
@@ -10,9 +12,10 @@ export class RequestHandler {
     private apiHeaders: Record<string, string> = {}
     private apiBody: object = {}
 
-    constructor(request: APIRequestContext, apiBaseUrl: string) {
+    constructor(request: APIRequestContext, apiBaseUrl: string, logger: APILogger) {
         this.request = request;
         this.defaultBaseUrl = apiBaseUrl
+        this.logger = logger
     }
 
     url(url: string) {
@@ -42,42 +45,58 @@ export class RequestHandler {
 
     async getRequest(statusCode: number) {
         const url = this.getUrl()
+        this.logger.logRequest('GET', url, this.apiHeaders)
         const response = await this.request.get(url, {
             headers: this.apiHeaders
         })
-        expect(response.status()).toEqual(statusCode)
-        const responseJSON = response.json()
+        const actualStatus = response.status()
+        const responseJSON = await response.json()
+
+        this.logger.logResponse(actualStatus, responseJSON)
+        expect(actualStatus).toEqual(statusCode)
         return responseJSON
     }
 
     async postRequest(statusCode: number) {
         const url = this.getUrl()
+        this.logger.logRequest('POST', url, this.apiHeaders, this.apiBody)
         const response = await this.request.post(url, {
             headers: this.apiHeaders,
             data: this.apiBody
         })
-        expect(response.status()).toEqual(statusCode)
-        const responseJSON = response.json()
+        const actualStatus = response.status()
+        const responseJSON = await response.json()
+
+        this.logger.logResponse(actualStatus, responseJSON)
+        expect(actualStatus).toEqual(statusCode)
         return responseJSON
     }
 
     async putRequest(statusCode: number) {
         const url = this.getUrl()
+        this.logger.logRequest('PUT', url, this.apiHeaders, this.apiBody)
         const response = await this.request.put(url, {
             headers: this.apiHeaders,
             data: this.apiBody
         })
-        expect(response.status()).toEqual(statusCode)
-        const responseJSON = response.json()
+        const actualStatus = response.status()
+        const responseJSON = await response.json()
+
+        this.logger.logResponse(actualStatus, responseJSON)
+        expect(actualStatus).toEqual(statusCode)
         return responseJSON
     }
 
     async deleteRequest(statusCode: number) {
         const url = this.getUrl()
+        this.logger.logRequest('DELETE', url, this.apiHeaders, this.apiBody)
         const response = await this.request.delete(url, {
             headers: this.apiHeaders
         })
-        expect(response.status()).toEqual(statusCode)
+        const actualStatus = response.status()
+
+        this.logger.logResponse(actualStatus)
+        expect(actualStatus).toEqual(statusCode)
     }
 
     private getUrl() {
