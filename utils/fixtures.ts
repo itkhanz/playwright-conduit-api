@@ -1,6 +1,7 @@
 import { test as base } from "@playwright/test";
 import { RequestHandler } from "./RequestHandler";
 import { APILogger } from "./logger";
+import { setCustomExpectLogger } from "./custom-expect";
 
 //Needed to fix Intellisense to show the methods available inside api fixture
 export type TestOptions = {
@@ -14,6 +15,7 @@ export const test = base.extend<TestOptions>({
     api: async ({ request }, use) => {
         const baseUrl = 'https://conduit-api.bondaracademy.com/api'
         const logger = new APILogger()
+        setCustomExpectLogger(logger)
         const requestHandler = new RequestHandler(request, baseUrl, logger)
         await use(requestHandler) //All the code before use is executed after the test, and the code after use is executed after test
     }
