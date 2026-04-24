@@ -16,7 +16,5 @@ export const test = base.extend<TestOptions>({
         const logger = new APILogger()
         const requestHandler = new RequestHandler(request, baseUrl, logger)
         await use(requestHandler) //All the code before use is executed after the test, and the code after use is executed after test
-        const logs = logger.getRecentLogs()
-        console.log(logs)
     }
 })

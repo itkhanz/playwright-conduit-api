@@ -53,7 +53,7 @@ export class RequestHandler {
         const responseJSON = await response.json()
 
         this.logger.logResponse(actualStatus, responseJSON)
-        expect(actualStatus).toEqual(statusCode)
+        this.statusCodeValidator(actualStatus, statusCode, this.getRequest)
         return responseJSON
     }
 
@@ -68,7 +68,7 @@ export class RequestHandler {
         const responseJSON = await response.json()
 
         this.logger.logResponse(actualStatus, responseJSON)
-        expect(actualStatus).toEqual(statusCode)
+        this.statusCodeValidator(actualStatus, statusCode, this.postRequest)
         return responseJSON
     }
 
@@ -83,7 +83,7 @@ export class RequestHandler {
         const responseJSON = await response.json()
 
         this.logger.logResponse(actualStatus, responseJSON)
-        expect(actualStatus).toEqual(statusCode)
+        this.statusCodeValidator(actualStatus, statusCode, this.putRequest)
         return responseJSON
     }
 
@@ -96,7 +96,7 @@ export class RequestHandler {
         const actualStatus = response.status()
 
         this.logger.logResponse(actualStatus)
-        expect(actualStatus).toEqual(statusCode)
+        this.statusCodeValidator(actualStatus, statusCode, this.deleteRequest)
     }
 
     private getUrl() {
@@ -106,6 +106,15 @@ export class RequestHandler {
         }
 
         return url.toString()
+    }
+
+    private statusCodeValidator(actualStatus: number, expectedStatus: number, callingMethod: Function) {
+        if (actualStatus != expectedStatus) {
+            const logs = this.logger.getRecentLogs()
+            const error = new Error(`Expected status code ${expectedStatus} but got ${actualStatus}\n\nRecent API Acitivity: \n${logs}`)
+            Error.captureStackTrace(error, callingMethod)
+            throw error
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test";
 import { test } from "../../utils/fixtures.ts";
-import { RequestHandler } from "../../utils/RequestHandler.ts";
 
 let authToken: string
 
