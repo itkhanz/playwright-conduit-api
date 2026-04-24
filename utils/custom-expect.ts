@@ -7,6 +7,14 @@ export const setCustomExpectLogger = (logger: APILogger) => {
     apiLogger = logger
 }
 
+declare global {
+    namespace PlaywrightTest {
+        interface Matchers<R, T> {
+            shouldEqual(expected: T): R
+        }
+    }
+}
+
 export const expect = baseExpect.extend({
     async shouldEqual(received: any, expected: any) {
 
