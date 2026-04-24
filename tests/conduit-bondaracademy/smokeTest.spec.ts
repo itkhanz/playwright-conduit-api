@@ -1,15 +1,11 @@
+import { createToken } from "../../helpers/createToken";
 import { expect } from "../../utils/custom-expect";
 import { test } from "../../utils/fixtures";
 
 let authToken: string
 
 test.beforeAll('Get Token', async ({ api, config }) => {
-    const tokenResponse = await api
-        .path('/users/login')
-        .body({ "user": { "email": config.userEmail, "password": config.userPassword } })
-        .postRequest(200)
-
-    authToken = 'Token ' + tokenResponse.user.token
+    authToken = await createToken(api, config.userEmail, config.userPassword)
 })
 
 //Providing api fixture as input instead of request object
