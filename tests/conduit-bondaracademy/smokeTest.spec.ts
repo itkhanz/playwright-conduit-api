@@ -10,6 +10,7 @@ test.beforeAll('Get Token', async ({ api, config }) => {
         .postRequest(200)
 
     authToken = 'Token ' + tokenResponse.user.token
+    console.log(tokenResponse.user)
 })
 
 //Providing api fixture as input instead of request object

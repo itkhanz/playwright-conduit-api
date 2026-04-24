@@ -24,6 +24,9 @@ npx playwright test -g 'Get Tags'
 # Run specific test file
 npx playwright test practice.spec.ts
 
+# Run specific in a different environment via cmd (default is INT)
+TEST_ENV=QA npx playwright test practice.spec.ts
+
 # Run test project (configured in playwright.config.ts)
 npx playwright test --project conduit-bondaracademy
 
