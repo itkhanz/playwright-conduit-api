@@ -28,6 +28,6 @@ npx playwright test practice.spec.ts
 TEST_ENV=QA npx playwright test practice.spec.ts
 
 # Run test project (configured in playwright.config.ts)
-npx playwright test --project conduit-bondaracademy
+npx playwright test --project framework
 
 ```
