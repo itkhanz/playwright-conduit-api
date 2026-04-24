@@ -4,8 +4,8 @@ import { test } from "../../utils/fixtures";
 
 let authToken: string
 
-test.beforeAll('Get Token', async ({ api, config }) => {
-    authToken = await createToken(api, config.userEmail, config.userPassword)
+test.beforeAll('Get Token', async ({ config }) => {
+    authToken = await createToken(config.userEmail, config.userPassword)
 })
 
 //Providing api fixture as input instead of request object
