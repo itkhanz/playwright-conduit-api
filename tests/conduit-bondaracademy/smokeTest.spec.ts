@@ -12,6 +12,10 @@ test('Get Articles', async ({ api }) => {
         // .clearAuth() //no auth
         .getRequest(200)
 
+    // Pass true as third argument to regenerate schema if Api spec changes. 
+    // Remove 'true' after generating schema, otherwise it always generates new schema and test keeps passing
+    await expect(response).shouldMatchSchema('articles', 'GET_articles')
+
     expect(response.articles.length).shouldBeLessThanOrEqual(10)
     expect(response.articlesCount).shouldEqual(10)
 })
@@ -21,8 +25,7 @@ test('Get Test Tags', async ({ api }) => {
         .path('/tags')
         .getRequest(200)
 
-    expect(response).shouldMatchSchema('tags', 'GET_tags')
-
+    await expect(response).shouldMatchSchema('tags', 'GET_tags')
     expect(response.tags.length).shouldBeLessThanOrEqual(10)
     expect(response.tags[0]).shouldEqual('Test')
 })
@@ -33,7 +36,7 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .path('/articles')
         .body({ "article": { "title": "Second article", "description": "About", "body": "Details", "tagList": ["test"] } })
         .postRequest(201)
-
+    await expect(newArticleResponse).shouldMatchSchema('articles', 'POST_articles')
     expect(newArticleResponse.article.title).shouldEqual("Second article")
     const articleSlug = newArticleResponse.article.slug
 
