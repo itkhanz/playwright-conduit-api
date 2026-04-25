@@ -1,12 +1,24 @@
+import Ajv from 'ajv'
 import fs from 'fs/promises'
 import path from 'path'
 
 const SCHEMA_BASE_PATH = './response-schemas'
+const ajv = new Ajv({ allErrors: true })
 
-export async function validateSchema(dirName: string, fileName: string) {
+export async function validateSchema(dirName: string, fileName: string, responseBody: object) {
     const schemaPath = path.join(SCHEMA_BASE_PATH, dirName, `${fileName}_schema.json`)
     const schema = await loadSchema(schemaPath)
-    console.log(schema)
+
+    const validate = ajv.compile(schema)
+    const valid = validate(responseBody)
+    if (!valid) {
+        throw new Error(
+            `Schema validation ${fileName}_schema.json failed:\n` +
+            `${JSON.stringify(validate.errors, null, 4)}\n\n` +
+            `Actual response body: \n` +
+            `${JSON.stringify(responseBody, null, 4)}`
+        )
+    }
 }
 
 async function loadSchema(schemaPath: string) {
