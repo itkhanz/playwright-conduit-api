@@ -39,6 +39,7 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .body(updatedArticleRequest)
         .putRequest(200)
 
+    await expect(updateArticleResponse).shouldMatchSchema('articles', 'PUT_articles')
     expect(updateArticleResponse.article.title).shouldEqual(updatedArticleRequest.article.title)
     const updatedArticleSlug = updateArticleResponse.article.slug
 
@@ -46,6 +47,8 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .path('/articles')
         .params({ limit: 10, offset: 0 })
         .getRequest(200)
+    
+    await expect(getArticlesResponse).shouldMatchSchema('articles', 'GET_articles')
     expect(getArticlesResponse.articles[0].title).shouldEqual(updatedArticleRequest.article.title)
 
     const deleteArticleResponse = await api
@@ -56,5 +59,7 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .path('/articles')
         .params({ limit: 10, offset: 0 })
         .getRequest(200)
+    
+    await expect(finalArticlesResponse).shouldMatchSchema('articles', 'GET_articles')
     expect(finalArticlesResponse.articles[0].title).not.shouldEqual(updatedArticleRequest.article.title)
 })
