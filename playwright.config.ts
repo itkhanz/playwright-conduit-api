@@ -27,7 +27,7 @@ export default defineConfig({
     },
     {
       name: 'framework',
-      testMatch: ['articles*', 'tags*']
+      testDir: './tests/conduit'
     }
   ],
 });
