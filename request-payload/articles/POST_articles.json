@@ -1,0 +1,10 @@
+{
+    "article": {
+        "title": "Second article",
+        "description": "About",
+        "body": "Details",
+        "tagList": [
+            "test"
+        ]
+    }
+}

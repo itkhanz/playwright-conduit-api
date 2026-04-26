@@ -1,3 +1,4 @@
+import articleRequestPayload from "../../request-payload/articles/POST_articles.json";
 import { expect } from "../../utils/custom-expect";
 import { test } from "../../utils/fixtures";
 
@@ -32,17 +33,21 @@ test('Get Test Tags', async ({ api }) => {
 
 test('Create, Update, Delete, and Get Article', async ({ api }) => {
 
+    const articleRequest = structuredClone(articleRequestPayload)
+
     const newArticleResponse = await api
         .path('/articles')
-        .body({ "article": { "title": "Second article", "description": "About", "body": "Details", "tagList": ["test"] } })
+        .body(articleRequest)
         .postRequest(201)
     await expect(newArticleResponse).shouldMatchSchema('articles', 'POST_articles')
     expect(newArticleResponse.article.title).shouldEqual("Second article")
     const articleSlug = newArticleResponse.article.slug
 
+    articleRequest.article.title = "Edited article"
+
     const updateArticleResponse = await api
         .path(`/articles/${articleSlug}`)
-        .body({ "article": { "title": "Edited article", "description": "About", "body": "Details", "tagList": ["test"] } })
+        .body(articleRequest)
         .putRequest(200)
 
     expect(updateArticleResponse.article.title).shouldEqual("Edited article")
