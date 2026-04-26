@@ -1,7 +1,6 @@
-import articleRequestPayload from "../../request-payload/articles/POST_articles.json";
 import { expect } from "../../utils/custom-expect";
+import { getNewRandomArticle } from "../../utils/data-generator";
 import { test } from "../../utils/fixtures";
-
 
 test('Get Articles', async ({ api }) => {
 
@@ -33,31 +32,31 @@ test('Get Test Tags', async ({ api }) => {
 
 test('Create, Update, Delete, and Get Article', async ({ api }) => {
 
-    const articleRequest = structuredClone(articleRequestPayload)
+    const articleRequest = getNewRandomArticle()
 
     const newArticleResponse = await api
         .path('/articles')
         .body(articleRequest)
         .postRequest(201)
     await expect(newArticleResponse).shouldMatchSchema('articles', 'POST_articles')
-    expect(newArticleResponse.article.title).shouldEqual("Second article")
+    expect(newArticleResponse.article.title).shouldEqual(articleRequest.article.title)
     const articleSlug = newArticleResponse.article.slug
 
-    articleRequest.article.title = "Edited article"
+    const updatedArticleRequest = getNewRandomArticle()
 
     const updateArticleResponse = await api
         .path(`/articles/${articleSlug}`)
-        .body(articleRequest)
+        .body(updatedArticleRequest)
         .putRequest(200)
 
-    expect(updateArticleResponse.article.title).shouldEqual("Edited article")
+    expect(updateArticleResponse.article.title).shouldEqual(updatedArticleRequest.article.title)
     const updatedArticleSlug = updateArticleResponse.article.slug
 
     const getArticlesResponse = await api
         .path('/articles')
         .params({ limit: 10, offset: 0 })
         .getRequest(200)
-    expect(getArticlesResponse.articles[0].title).shouldEqual('Edited article')
+    expect(getArticlesResponse.articles[0].title).shouldEqual(updatedArticleRequest.article.title)
 
     const deleteArticleResponse = await api
         .path(`/articles/${updatedArticleSlug}`)
@@ -67,5 +66,5 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .path('/articles')
         .params({ limit: 10, offset: 0 })
         .getRequest(200)
-    expect(finalArticlesResponse.articles[0].title).not.shouldEqual('Edited article')
+    expect(finalArticlesResponse.articles[0].title).not.shouldEqual(updatedArticleRequest.article.title)
 })
