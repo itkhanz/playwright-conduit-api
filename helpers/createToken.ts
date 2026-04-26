@@ -1,5 +1,5 @@
 import { request } from "@playwright/test";
-import { config } from "../api-test.config";
+import { config } from "../config/config-loader";
 import { APILogger } from "../utils/logger";
 import { RequestHandler } from "../utils/RequestHandler";
 

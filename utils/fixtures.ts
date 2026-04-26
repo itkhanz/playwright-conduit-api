@@ -1,5 +1,5 @@
 import { test as base } from "@playwright/test";
-import { config } from "../api-test.config";
+import { config } from "../config/config-loader";
 import { createToken } from "../helpers/createToken";
 import { RequestHandler } from "./RequestHandler";
 import { setCustomExpectLogger } from "./custom-expect";
