@@ -21,13 +21,13 @@ export default defineConfig({
   
   projects: [
     {
-      name: 'practice-tests',
+      name: 'practice',
       testMatch: 'practice*',
-      dependencies: ['framework-tests']
+      dependencies: ['framework']
     },
     {
-      name: 'framework-tests',
-      testMatch: 'smoke*'
+      name: 'framework',
+      testMatch: ['articles*', 'tags*']
     }
   ],
 });
