@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import articleRequestPayload from "../request-payload/articles/POST_articles.json";
+import userRequestPayload from "../request-payload/users/POST_users.json";
 
 export function getNewRandomArticle() {
     const articleRequest = structuredClone(articleRequestPayload)
@@ -9,3 +10,8 @@ export function getNewRandomArticle() {
     return articleRequest
 }
 
+export function getNewRandomUser(userNameLength: number = 3) {
+    const userRequest = structuredClone(userRequestPayload)
+    userRequest.user.username = faker.string.alphanumeric({ length: userNameLength })
+    return userRequest;
+}

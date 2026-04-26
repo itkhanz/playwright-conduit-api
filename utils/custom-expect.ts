@@ -13,6 +13,7 @@ declare global {
         interface Matchers<R, T> {
             shouldEqual(expected: T): R
             shouldBeLessThanOrEqual(expected: T): R
+            shouldHaveProperty(expected: T): R
             shouldMatchSchema(dirName: string, fileName: string, createSchemaFlag?: boolean): Promise<R>
 
         }
@@ -93,6 +94,36 @@ export const expect = baseExpect.extend({
         const message = () => this.utils.matcherHint('shouldBeLessThanOrEqual', undefined, undefined, { isNot: this.isNot }) +
             '\n\n' +
             `Expected: ${hint} ${this.utils.printExpected(expected)}\n` +
+            `Received: ${this.utils.printReceived(received)}\n\n` +
+            `Recent API activity: \n${logs}`
+
+        return {
+            message,
+            pass
+        }
+
+    },
+    async shouldHaveProperty(received: any, expected: any) {
+
+        let pass: boolean;
+        let logs: string
+
+        try {
+            baseExpect(received).toHaveProperty(expected)
+            pass = true;
+            if (this.isNot) {
+                logs = apiLogger.getRecentLogs()
+            }
+        } catch (e: any) {
+            pass = false;
+            logs = apiLogger.getRecentLogs()
+        }
+
+        const hint = this.isNot ? 'not' : ''
+
+        const message = () => this.utils.matcherHint('shouldHaveProperty', undefined, undefined, { isNot: this.isNot }) +
+            '\n\n' +
+            `Expected: ${hint} ${this.utils.printExpected(expected)} property\n` +
             `Received: ${this.utils.printReceived(received)}\n\n` +
             `Recent API activity: \n${logs}`
 
