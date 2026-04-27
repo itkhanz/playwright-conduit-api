@@ -23,13 +23,20 @@ export default defineConfig({
   
   projects: [
     {
-      name: 'practice',
+      name: 'api-practice',
       testMatch: 'practice*',
-      dependencies: ['framework']
+      dependencies: ['api-framework']
     },
     {
-      name: 'framework',
-      testDir: './tests/conduit'
+      name: 'api-framework',
+      testDir: './tests/api/framework'
+    },
+    {
+      name: 'ui-tests',
+      testDir: './tests/ui',
+      use: {
+        defaultBrowserType: 'chromium'
+      }
     }
   ],
 });
