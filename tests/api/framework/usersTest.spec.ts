@@ -1,6 +1,6 @@
-import { expect } from "../../utils/custom-expect";
-import { getNewRandomUser } from "../../utils/data-generator";
-import { test } from "../../utils/fixtures";
+import { expect } from "../../../utils/custom-expect";
+import { getNewRandomUser } from "../../../utils/data-generator";
+import { test } from "../../../utils/fixtures";
 
 [
     { userNameLength: 2, usernameErrorMessage: 'is too short (minimum is 3 characters)' },

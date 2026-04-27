@@ -1,6 +1,6 @@
-import { expect } from "../../utils/custom-expect";
-import { getNewRandomArticle } from "../../utils/data-generator";
-import { test } from "../../utils/fixtures";
+import { expect } from "../../../utils/custom-expect";
+import { getNewRandomArticle } from "../../../utils/data-generator";
+import { test } from "../../../utils/fixtures";
 
 test('Get Articles', async ({ api }) => {
 
@@ -47,7 +47,7 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .path('/articles')
         .params({ limit: 10, offset: 0 })
         .getRequest(200)
-    
+
     await expect(getArticlesResponse).shouldMatchSchema('articles', 'GET_articles')
     expect(getArticlesResponse.articles[0].title).shouldEqual(updatedArticleRequest.article.title)
 
@@ -59,7 +59,7 @@ test('Create, Update, Delete, and Get Article', async ({ api }) => {
         .path('/articles')
         .params({ limit: 10, offset: 0 })
         .getRequest(200)
-    
+
     await expect(finalArticlesResponse).shouldMatchSchema('articles', 'GET_articles')
     expect(finalArticlesResponse.articles[0].title).not.shouldEqual(updatedArticleRequest.article.title)
 })

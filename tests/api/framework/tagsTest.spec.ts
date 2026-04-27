@@ -1,5 +1,5 @@
-import { expect } from "../../utils/custom-expect";
-import { test } from "../../utils/fixtures";
+import { expect } from "../../../utils/custom-expect";
+import { test } from "../../../utils/fixtures";
 
 test('Get Test Tags', async ({ api }) => {
     const response = await api
